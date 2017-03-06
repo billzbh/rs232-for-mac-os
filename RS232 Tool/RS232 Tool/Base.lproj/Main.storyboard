@@ -64,7 +64,7 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="RS232 Tool" id="1Xt-HY-uBw">
+                            <menuItem title="RS232 Tool" id="1Xt-HY-uBw" userLabel="RS232Tools">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="RS232 Tool" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
@@ -89,8 +89,77 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Edit" id="AGg-y2-GyT">
+                            <menuItem title="Edit" id="iUm-H8-v7K">
                                 <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Edit" id="9JR-Fx-Cep">
+                                    <items>
+                                        <menuItem title="Cut" keyEquivalent="x" id="tqR-qN-bt5">
+                                            <connections>
+                                                <action selector="cut:" target="Ady-hI-5gd" id="kEp-U3-VKH"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Copy" keyEquivalent="c" id="kKe-PA-lap">
+                                            <connections>
+                                                <action selector="copy:" target="Ady-hI-5gd" id="3KJ-ru-Bhs"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Paste" keyEquivalent="v" id="sxQ-ga-Aue">
+                                            <connections>
+                                                <action selector="paste:" target="Ady-hI-5gd" id="qxv-e1-8cm"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Delete" id="303-ZW-zq1">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="delete:" target="Ady-hI-5gd" id="VK2-B4-OAd"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Select All" keyEquivalent="a" id="Pi2-Ho-ISe">
+                                            <connections>
+                                                <action selector="selectAll:" target="Ady-hI-5gd" id="FaO-W6-kEf"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="YNR-08-rw1"/>
+                                        <menuItem title="Find" id="TNH-gE-t1q">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Find" id="nXN-n3-4Yk">
+                                                <items>
+                                                    <menuItem title="Find…" tag="1" keyEquivalent="f" id="1Nz-ff-eUI">
+                                                        <connections>
+                                                            <action selector="performFindPanelAction:" target="Ady-hI-5gd" id="jg2-oW-HG9"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Find and Replace…" tag="12" keyEquivalent="f" id="Tpx-u6-1tS">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="performTextFinderAction:" target="Ady-hI-5gd" id="U02-0s-C7u"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Find Next" tag="2" keyEquivalent="g" id="LdQ-zc-nk6">
+                                                        <connections>
+                                                            <action selector="performFindPanelAction:" target="Ady-hI-5gd" id="2Mq-vy-f07"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="vsh-7C-OWo">
+                                                        <connections>
+                                                            <action selector="performFindPanelAction:" target="Ady-hI-5gd" id="8QO-0O-bhd"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Use Selection for Find" tag="7" keyEquivalent="e" id="F6m-1r-Z4q">
+                                                        <connections>
+                                                            <action selector="performFindPanelAction:" target="Ady-hI-5gd" id="9Cv-Cj-kMl"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Jump to Selection" keyEquivalent="j" id="rIP-1F-RyJ">
+                                                        <connections>
+                                                            <action selector="centerSelectionInVisibleArea:" target="Ady-hI-5gd" id="Cba-K2-Ab4"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                    </items>
+                                </menu>
                             </menuItem>
                             <menuItem title="Help" id="Yq1-03-kBr">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -194,7 +263,7 @@
                                                 <rect key="frame" x="1" y="1" width="418" height="83"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textView ambiguous="YES" importsGraphics="NO" richText="NO" usesFontPanel="YES" findStyle="bar" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Uy1-nd-yEM">
+                                                    <textView ambiguous="YES" importsGraphics="NO" richText="NO" usesFontPanel="YES" findStyle="bar" continuousSpellChecking="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Uy1-nd-yEM">
                                                         <rect key="frame" x="0.0" y="0.0" width="418" height="83"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
