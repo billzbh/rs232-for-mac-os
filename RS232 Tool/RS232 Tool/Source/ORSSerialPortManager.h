@@ -117,6 +117,9 @@ extern NSString * const ORSDisconnectedSerialPortsKey;
  */
 @interface ORSSerialPortManager : NSObject
 
++ (NSData *)twoOneData:(NSString *)sourceString;
++ (NSString *)oneTwoData:(NSData *)sourceData;
+
 /**
  *  Returns the shared (singleton) serial port manager object.
  *

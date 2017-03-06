@@ -19,7 +19,6 @@
 		25EF805F1E69427500F258D0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EF805E1E69427500F258D0 /* ViewController.m */; };
 		25EF80611E69427500F258D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25EF80601E69427500F258D0 /* Assets.xcassets */; };
 		25EF80641E69427500F258D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25EF80621E69427500F258D0 /* Main.storyboard */; };
-		25EF806C1E698C0500F258D0 /* 数据位修改.txt in Sources */ = {isa = PBXBuildFile; fileRef = 25EF806B1E698C0500F258D0 /* 数据位修改.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +43,6 @@
 		25EF80601E69427500F258D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25EF80631E69427500F258D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		25EF80651E69427500F258D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		25EF806B1E698C0500F258D0 /* 数据位修改.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "数据位修改.txt"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				25EF805B1E69427500F258D0 /* main.m */,
-				25EF806B1E698C0500F258D0 /* 数据位修改.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -207,7 +204,6 @@
 				25EF80591E69427500F258D0 /* AppDelegate.m in Sources */,
 				259CDD421E69A1EF00D9A141 /* ORSSerialPacketDescriptor.m in Sources */,
 				259CDD441E69A1EF00D9A141 /* ORSSerialPortManager.m in Sources */,
-				25EF806C1E698C0500F258D0 /* 数据位修改.txt in Sources */,
 				259CDD411E69A1EF00D9A141 /* ORSSerialBuffer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

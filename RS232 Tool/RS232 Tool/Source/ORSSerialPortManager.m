@@ -89,6 +89,45 @@ static ORSSerialPortManager *sharedInstance = nil;
 	return self;
 }
 
++ (NSString *)oneTwoData:(NSData *)sourceData
+{
+    Byte *inBytes = (Byte *)[sourceData bytes];
+    NSMutableString *resultData = [[NSMutableString alloc] initWithCapacity:2048];
+    
+    for(NSInteger counter = 0; counter < [sourceData length]; counter++)
+        [resultData appendFormat:@"%02X ",inBytes[counter]];
+    
+    return resultData;
+}
+
++ (NSData *)twoOneData:(NSString *)sourceString
+{
+    Byte tmp, result;
+    Byte *sourceBytes = (Byte *)[sourceString UTF8String];
+    
+    NSMutableData *resultData = [[NSMutableData alloc] init];
+    
+    for(NSInteger i=0; i<strlen((char*)sourceBytes); i+=2) {
+        tmp = sourceBytes[i];
+        if(tmp > '9')
+            tmp = toupper(tmp) - 'A' + 0x0a;
+        else
+            tmp &= 0x0f;
+        
+        result = tmp <<= 4;
+        
+        tmp = sourceBytes[i+1];
+        if(tmp > '9')
+            tmp = toupper(tmp) - 'A' + 0x0a;
+        else
+            tmp &= 0x0f;
+        result += tmp;
+        [resultData appendBytes:&result length:1];
+    }
+    
+    return resultData;
+}
+
 + (ORSSerialPortManager *)sharedSerialPortManager;
 {
 	static dispatch_once_t onceToken;

@@ -39,8 +39,12 @@
     [super viewDidLoad];
 
     [self.RXDataDisplayTextView setEditable:NO];
+    [self.RXCounter setEditable:NO];
+    [self.TXCounter setEditable:NO];
     self.isRXHexString = YES;
     self.isTXHexString = YES;
+    self.TXNumber = 0;
+    self.RXNumber = 0;
     // Do any additional setup after loading the view.
 }
 
@@ -51,13 +55,15 @@
 }
 
 - (IBAction)openComPort:(id)sender {
-    self.serialPort.isOpen ? [self.serialPort close] : [self.serialPort open];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        self.serialPort.isOpen ? [self.serialPort close] : [self.serialPort open];
+    });
 }
 
 - (IBAction)setDisplayMode:(NSMatrix *)sender {
     if (sender.selectedTag==1) {
         self.isRXHexString = YES;
-    }else{
+    }else if(sender.selectedTag==2){
         self.isRXHexString = NO;
     }
 }
@@ -73,21 +79,43 @@
 
 - (IBAction)sendData:(id)sender {
     
+    NSString *textStr = self.TXDataDisplayTextView.textStorage.mutableString;
+    if(textStr.length==0)
+        return;
     
+    if (self.isTXHexString) {
+        
+        textStr = [textStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        textStr = [textStr stringByReplacingOccurrencesOfString:@"0x" withString:@""];
+        textStr = [textStr stringByReplacingOccurrencesOfString:@"\\x" withString:@""];
+        if (textStr.length%2!=0) {
+            return;
+        }
+        self.TXNumber += textStr.length/2;
+        [self.serialPort sendData:[ORSSerialPortManager twoOneData:textStr]];
+    }else{
+        const char* cstr = [textStr cStringUsingEncoding:NSASCIIStringEncoding];
+        self.TXNumber += textStr.length;
+        NSData *sendData = [NSData dataWithBytes:cstr length:textStr.length];
+        [self.serialPort sendData:sendData];
+    }
+    self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
 }
 
 - (IBAction)clearTXDataDisplayTextView:(id)sender {
-    
-    NSRange range = NSMakeRange (0,[[_TXDataDisplayTextView string] length]);
-    [self.TXDataDisplayTextView replaceCharactersInRange:range withString:@""];
-    [self.TXDataDisplayTextView setNeedsDisplay:YES];
+    [self.TXDataDisplayTextView setString:@""];
 }
 
 - (IBAction)clearRXDataDisplayTextView:(id)sender {
+    [self.RXDataDisplayTextView setString:@""];
+}
+
+- (IBAction)clearCounter:(id)sender {
     
-    NSRange range = NSMakeRange (0, [[_RXDataDisplayTextView string] length]);
-    [self.RXDataDisplayTextView replaceCharactersInRange:range withString:@""];
-    [self.RXDataDisplayTextView setNeedsDisplay:YES];
+    self.RXNumber = 0;
+    self.TXNumber = 0;
+    self.TXCounter.stringValue=@"";
+    self.RXCounter.stringValue = @"";
 }
 
 #pragma mark - ORSSerialPortDelegate Methods
@@ -106,11 +134,19 @@
 
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
 {
-    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"收到数据: %@",data);
+    self.RXNumber += data.length;
+    self.RXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.RXNumber];
+    
+    NSString *string;
+    if (self.isRXHexString) {
+        string = [ORSSerialPortManager oneTwoData:data];
+    }else{
+        string = [NSString stringWithCString:(const char*)[data bytes] encoding:NSASCIIStringEncoding];
+    }
     if ([string length] == 0) return;
     [self.RXDataDisplayTextView.textStorage.mutableString appendString:string];
     [self.RXDataDisplayTextView setNeedsDisplay:YES];
-    
 }
 
 - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
@@ -213,24 +249,4 @@
     }
 }
 
-
--(BOOL)isChineseGBK:(NSData *)Data index:(int)index {
-    // GBK字符集; 8140-FEFE，首字节在8140-FEFE，首字节在 81-FE 之间，尾字节在 40-FE 之间，剔除 xx7F
-    // 一条线; qzfeng 2015/12/09
-    Byte *data = (Byte*)[Data bytes];
-    
-    if ((data[index] >= 0x81) && (data[index] <= 0xFE)) {
-        if ((data[index + 1] != 0x7F) && (data[index + 1] >= 0x40)
-            && (data[index + 1] <= 0xFE)) // 汉字； qzfeng 2015/12/09
-        {
-            return true;
-        } else // 英文;
-        {
-            return false;
-        }
-    } else // 英文;
-    {
-        return false;
-    }
-}
 @end

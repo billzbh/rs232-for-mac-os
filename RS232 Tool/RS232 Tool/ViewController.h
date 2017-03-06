@@ -30,7 +30,6 @@
 
 @property (nonatomic, assign) BOOL isTXHexString;
 
-
 @property (nonatomic, strong) ORSSerialPortManager *serialPortManager;
 @property (nonatomic, strong) ORSSerialPort *serialPort;
 @property (nonatomic, strong) NSArray *availableBaudRates;
