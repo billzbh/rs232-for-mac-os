@@ -43,6 +43,8 @@
     [self.TXCounter setEditable:NO];
     self.isRXHexString = YES;
     self.isTXHexString = YES;
+    self.isRXGBKString = NO;
+    self.isTXGBKString = NO;
     self.TXNumber = 0;
     self.RXNumber = 0;
     // Do any additional setup after loading the view.
@@ -60,28 +62,72 @@
     });
 }
 
+//设置接收区采用hexstring还是字符串显示方式
 - (IBAction)setDisplayMode:(NSMatrix *)sender {
     if (sender.selectedTag==1) {
         self.isRXHexString = YES;
+        [self.stringType setEnabled:NO];
     }else if(sender.selectedTag==2){
         self.isRXHexString = NO;
+        [self.stringType setEnabled:YES];
     }
 }
 
+//设置发送区采用hexstring还是字符串发送
 - (IBAction)setDisplayMode_TX:(NSMatrix *)sender {
     
     if (sender.selectedTag==1) {
         self.isTXHexString = YES;
+        [self.stringType_TX setEnabled:NO];
     }else{
         self.isTXHexString = NO;
+        [self.stringType_TX setEnabled:YES];
     }
 }
 
+//设置接收区字符串编码方式
+- (IBAction)setStringDisplayEncode:(NSMatrix *)sender {
+    if (sender.selectedTag==1) {
+        _isRXGBKString = NO;
+        //原先字符串是GBK，获取为NSDATA
+        NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+        const char* cstr = [self.RXDataDisplayTextView.string cStringUsingEncoding:enc];;
+        //转为UTF8
+        NSString *string = [NSString stringWithCString:cstr encoding:NSUTF8StringEncoding];
+        //显示出来
+        [self.TXDataDisplayTextView setString:string];
+        
+    }else{
+        _isRXGBKString = YES;
+        
+        //原先字符串是UTF8，获取为NSDATA
+        const char* cstr = [self.RXDataDisplayTextView.string cStringUsingEncoding:NSUTF8StringEncoding];;
+        //转为GBK
+        NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+        NSString *string = [NSString stringWithCString:cstr encoding:enc];
+        //显示出来
+        [self.TXDataDisplayTextView setString:string];
+    }
+}
+
+//设置发送区字符串编码方式
+- (IBAction)setStringDisplayEncode_TX:(NSMatrix *)sender {
+    if (sender.selectedTag==1) {
+        _isTXGBKString = NO;
+    }else{
+        _isTXGBKString = YES;
+    }
+}
+
+
 - (IBAction)sendData:(id)sender {
     
+    self.StatusText.stringValue = @"发送数据中...";
     NSString *textStr = self.TXDataDisplayTextView.textStorage.mutableString;
-    if(textStr.length==0)
+    if(textStr.length==0){
+        self.StatusText.stringValue = @"发送数据长度为0";
         return;
+    }
     
     if (self.isTXHexString) {
         
@@ -89,24 +135,42 @@
         textStr = [textStr stringByReplacingOccurrencesOfString:@"0x" withString:@""];
         textStr = [textStr stringByReplacingOccurrencesOfString:@"\\x" withString:@""];
         if (textStr.length%2!=0) {
+            self.StatusText.stringValue = @"发送16进制数据格式错误！";
             return;
         }
         self.TXNumber += textStr.length/2;
         [self.serialPort sendData:[ORSSerialPortManager twoOneData:textStr]];
+        self.StatusText.stringValue = @"发送数据成功";
+        self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
+        
     }else{
-        const char* cstr = [textStr cStringUsingEncoding:NSASCIIStringEncoding];
-        self.TXNumber += textStr.length;
-        NSData *sendData = [NSData dataWithBytes:cstr length:textStr.length];
-        [self.serialPort sendData:sendData];
+        
+        const char* cstr;
+        if (_isTXGBKString) {
+            NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+            cstr = [textStr cStringUsingEncoding:enc];
+            self.StatusText.stringValue = @"发送GBK编码数据成功";
+        }else{
+            cstr = [textStr cStringUsingEncoding:NSUTF8StringEncoding];
+            self.StatusText.stringValue = @"发送UTF8编码数据成功";
+        }
+        if(cstr!=NULL){
+            self.TXNumber += strlen(cstr);
+            NSData *sendData = [NSData dataWithBytes:cstr length:strlen(cstr)];
+            [self.serialPort sendData:sendData];
+            self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
+            return;
+        }
     }
-    self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
 }
 
 - (IBAction)clearTXDataDisplayTextView:(id)sender {
+    self.StatusText.stringValue = @"已清空发送区";
     [self.TXDataDisplayTextView setString:@""];
 }
 
 - (IBAction)clearRXDataDisplayTextView:(id)sender {
+    self.StatusText.stringValue = @"已清空接收区";
     [self.RXDataDisplayTextView setString:@""];
 }
 
@@ -135,6 +199,7 @@
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
 {
     NSLog(@"收到数据: %@",data);
+    self.StatusText.stringValue = @"收到一次数据...";
     self.RXNumber += data.length;
     self.RXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.RXNumber];
     
@@ -142,11 +207,20 @@
     if (self.isRXHexString) {
         string = [ORSSerialPortManager oneTwoData:data];
     }else{
-        string = [NSString stringWithCString:(const char*)[data bytes] encoding:NSASCIIStringEncoding];
+        
+        if(self.isRXGBKString){
+            NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+            string = [NSString stringWithCString:(const char*)[data bytes] encoding:enc];
+        }else{
+            string = [NSString stringWithCString:(const char*)[data bytes] encoding:NSUTF8StringEncoding];
+        }
     }
-    if ([string length] == 0) return;
+    if ([string length] == 0){
+        return;
+    }
     [self.RXDataDisplayTextView.textStorage.mutableString appendString:string];
     [self.RXDataDisplayTextView setNeedsDisplay:YES];
+    self.StatusText.stringValue = @"数据接收完毕";
 }
 
 - (void)serialPortWasRemovedFromSystem:(ORSSerialPort *)serialPort;
@@ -159,6 +233,7 @@
 - (void)serialPort:(ORSSerialPort *)serialPort didEncounterError:(NSError *)error
 {
     NSLog(@"Serial port %@ encountered an error: %@", serialPort, error);
+    self.StatusText.stringValue = [NSString stringWithFormat:@"错误:%@",error.userInfo[@"NSLocalizedDescription"]];
 }
 
 #pragma mark - NSUserNotificationCenterDelegate

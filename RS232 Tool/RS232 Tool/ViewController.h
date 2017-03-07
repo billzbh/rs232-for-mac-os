@@ -25,10 +25,15 @@
 @property (unsafe_unretained) IBOutlet NSTextView *RXDataDisplayTextView;
 
 @property (unsafe_unretained) IBOutlet NSTextView *TXDataDisplayTextView;
+@property (weak) IBOutlet NSMatrix *stringType;
+@property (weak) IBOutlet NSMatrix *stringType_TX;
 
 @property (nonatomic, assign) BOOL isRXHexString;
 
 @property (nonatomic, assign) BOOL isTXHexString;
+
+@property (nonatomic, assign) BOOL isRXGBKString;
+@property (nonatomic, assign) BOOL isTXGBKString;
 
 @property (nonatomic, strong) ORSSerialPortManager *serialPortManager;
 @property (nonatomic, strong) ORSSerialPort *serialPort;

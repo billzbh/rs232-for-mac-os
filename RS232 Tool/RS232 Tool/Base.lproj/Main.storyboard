@@ -30,7 +30,7 @@
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <attributedString key="textStorage">
                                                 <fragment>
-                                                    <string key="content">说明: 1. 只支持16进制和ASCII，不支持中文 2. 16进制发送0x11，0x11两个字节时，可以使用【0x11 0x11】 或者【1111】或者【\x11\x11 】或者【 11 11】 3. 发送和接收区可以使用搜索功能          特别申明: 本工具基于ORSSerialPort 开源库制作，学习之作。 我的邮箱:bill_zbh@163.com</string>
+                                                    <string key="content">说明: 1. 字符串支持UTF8编码时，已经包含标准ASCII码。 2. 16进制发送0x11，0x11两个字节时，可以使用【0x11 0x11】 或者【1111】或者【\x11\x11 】或者【 11 11】 3. 发送和接收区可以使用搜索功能          特别申明: 本工具基于ORSSerialPort 开源库制作，学习之作。 我的邮箱:bill_zbh@163.com</string>
                                                     <attributes>
                                                         <font key="NSFont" size="11" name=".PingFangSC-Regular"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -208,28 +208,28 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="663" height="472"/>
+                        <rect key="frame" x="0.0" y="0.0" width="663" height="550"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box fixedFrame="YES" title="接收区:" translatesAutoresizingMaskIntoConstraints="NO" id="SzY-m7-xjc">
-                                <rect key="frame" x="222" y="156" width="437" height="305"/>
+                                <rect key="frame" x="222" y="202" width="437" height="337"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="TcW-YG-UMI">
-                                    <rect key="frame" x="2" y="2" width="433" height="288"/>
+                                    <rect key="frame" x="2" y="2" width="433" height="320"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView wantsLayer="YES" fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W7S-bq-I5f">
-                                            <rect key="frame" x="7" y="7" width="420" height="273"/>
+                                            <rect key="frame" x="7" y="7" width="420" height="307"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" id="lAs-WW-0MG">
-                                                <rect key="frame" x="1" y="1" width="418" height="271"/>
+                                                <rect key="frame" x="1" y="1" width="418" height="305"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textView ambiguous="YES" editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="bar" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="ZfY-TO-oyW">
-                                                        <rect key="frame" x="0.0" y="-1" width="418" height="271"/>
+                                                        <rect key="frame" x="0.0" y="-1" width="418" height="305"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <size key="minSize" width="418" height="271"/>
+                                                        <size key="minSize" width="418" height="305"/>
                                                         <size key="maxSize" width="463" height="10000000"/>
                                                         <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     </textView>
@@ -250,24 +250,24 @@
                                 <font key="titleFont" size="11" name=".PingFangSC-Regular"/>
                             </box>
                             <box fixedFrame="YES" title="发送区:" translatesAutoresizingMaskIntoConstraints="NO" id="edn-hC-ttr">
-                                <rect key="frame" x="222" y="38" width="437" height="114"/>
+                                <rect key="frame" x="222" y="45" width="437" height="153"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="Ude-zO-c37">
-                                    <rect key="frame" x="2" y="2" width="433" height="97"/>
+                                    <rect key="frame" x="2" y="2" width="433" height="136"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3j-jX-V2I">
-                                            <rect key="frame" x="6" y="6" width="420" height="85"/>
+                                            <rect key="frame" x="6" y="6" width="420" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <clipView key="contentView" ambiguous="YES" id="tiR-4X-Qs8">
-                                                <rect key="frame" x="1" y="1" width="418" height="83"/>
+                                                <rect key="frame" x="1" y="1" width="418" height="123"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textView ambiguous="YES" importsGraphics="NO" richText="NO" usesFontPanel="YES" findStyle="bar" continuousSpellChecking="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Uy1-nd-yEM">
-                                                        <rect key="frame" x="0.0" y="0.0" width="418" height="83"/>
+                                                    <textView ambiguous="YES" importsGraphics="NO" richText="NO" usesFontPanel="YES" findStyle="bar" usesRuler="YES" allowsNonContiguousLayout="YES" id="Uy1-nd-yEM">
+                                                        <rect key="frame" x="0.0" y="0.0" width="418" height="123"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <size key="minSize" width="418" height="83"/>
+                                                        <size key="minSize" width="418" height="123"/>
                                                         <size key="maxSize" width="463" height="10000000"/>
                                                         <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     </textView>
@@ -286,77 +286,8 @@
                                     </subviews>
                                 </view>
                             </box>
-                            <box fixedFrame="YES" title="发送设置:" translatesAutoresizingMaskIntoConstraints="NO" id="apQ-Dd-YaJ">
-                                <rect key="frame" x="8" y="38" width="212" height="114"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" id="eIK-IE-bCX">
-                                    <rect key="frame" x="2" y="2" width="208" height="97"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5EX-b5-X9w">
-                                            <rect key="frame" x="2" y="31" width="204" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="发送" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0g-s6-26V">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="sendData:" target="XfG-lQ-9wD" id="gPB-aX-NOA"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5c-ug-Z7y">
-                                            <rect key="frame" x="2" y="60" width="204" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="清空发送区" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xZm-qv-IjM">
-                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" size="15" name=".PingFangSC-Regular"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="clearTXDataDisplayTextView:" target="XfG-lQ-9wD" id="7VA-NL-bPT"/>
-                                            </connections>
-                                        </button>
-                                        <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygp-1u-cpE">
-                                            <rect key="frame" x="72" y="7" width="128" height="26"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="cellSize" width="62" height="26"/>
-                                            <size key="intercellSpacing" width="4" height="2"/>
-                                            <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="87h-zk-2CL">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <cells>
-                                                <column>
-                                                    <buttonCell type="radio" title="16进制" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="Tcn-o7-ABQ">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </column>
-                                                <column>
-                                                    <buttonCell type="radio" title="ASCII" imagePosition="left" alignment="left" tag="2" inset="2" id="qT6-eE-Pn2">
-                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                        <font key="font" metaFont="system"/>
-                                                    </buttonCell>
-                                                </column>
-                                            </cells>
-                                            <connections>
-                                                <action selector="setDisplayMode_TX:" target="XfG-lQ-9wD" id="tpR-fc-OEA"/>
-                                            </connections>
-                                        </matrix>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x4F-if-VZn">
-                                            <rect key="frame" x="6" y="10" width="68" height="23"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="显示模式:" id="lBt-jr-B33">
-                                                <font key="font" size="14" name=".PingFangSC-Regular"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
-                                    </subviews>
-                                </view>
-                            </box>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bbq-Rs-yGd">
-                                <rect key="frame" x="471" y="11" width="84" height="22"/>
+                                <rect key="frame" x="469" y="13" width="84" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="" drawsBackground="YES" id="ink-Il-NmO">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="D6d-t4-985"/>
@@ -366,7 +297,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O9H-GS-60T">
-                                <rect key="frame" x="325" y="11" width="77" height="22"/>
+                                <rect key="frame" x="324" y="13" width="77" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="" drawsBackground="YES" id="ddp-Ds-QRK">
                                     <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="ifm-mH-JTb"/>
@@ -376,7 +307,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dZX-Jd-vab">
-                                <rect key="frame" x="18" y="10" width="53" height="22"/>
+                                <rect key="frame" x="9" y="13" width="53" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Status:" id="PLJ-2V-HKP">
                                     <font key="font" metaFont="system"/>
@@ -385,7 +316,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VdO-rI-PuE">
-                                <rect key="frame" x="557" y="4" width="92" height="32"/>
+                                <rect key="frame" x="563" y="7" width="92" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="计数清零" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="y0M-DE-B7D">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -396,7 +327,7 @@
                                 </connections>
                             </button>
                             <box fixedFrame="YES" title="设置串口参数:" translatesAutoresizingMaskIntoConstraints="NO" id="u3c-qt-xR7">
-                                <rect key="frame" x="8" y="255" width="212" height="206"/>
+                                <rect key="frame" x="8" y="333" width="212" height="206"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="riC-P4-HLr">
                                     <rect key="frame" x="2" y="2" width="208" height="189"/>
@@ -555,7 +486,7 @@
                                 </view>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ng4-L0-3cC">
-                                <rect key="frame" x="75" y="10" width="153" height="22"/>
+                                <rect key="frame" x="66" y="13" width="153" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" placeholderString="请打开串口" id="Bgg-cU-2oC">
                                     <font key="font" metaFont="system"/>
@@ -564,14 +495,14 @@
                                 </textFieldCell>
                             </textField>
                             <box fixedFrame="YES" title="接收设置:" translatesAutoresizingMaskIntoConstraints="NO" id="AFi-Dk-2Da">
-                                <rect key="frame" x="8" y="162" width="212" height="89"/>
+                                <rect key="frame" x="8" y="202" width="212" height="127"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="5W6-1s-3T8">
-                                    <rect key="frame" x="2" y="2" width="208" height="72"/>
+                                    <rect key="frame" x="2" y="2" width="208" height="110"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Gm-cS-ZTy">
-                                            <rect key="frame" x="1" y="37" width="204" height="32"/>
+                                            <rect key="frame" x="1" y="75" width="204" height="32"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="push" title="清空接收区" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fV5-10-es1">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -582,7 +513,7 @@
                                             </connections>
                                         </button>
                                         <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0oI-yj-cFM">
-                                            <rect key="frame" x="71" y="9" width="128" height="28"/>
+                                            <rect key="frame" x="71" y="47" width="128" height="28"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             <size key="cellSize" width="62" height="28"/>
@@ -599,7 +530,7 @@
                                                     </buttonCell>
                                                 </column>
                                                 <column>
-                                                    <buttonCell type="radio" title="ASCII" imagePosition="left" alignment="left" tag="2" inset="2" id="08u-Qe-fPl">
+                                                    <buttonCell type="radio" title="字符串" imagePosition="left" alignment="left" tag="2" inset="2" id="08u-Qe-fPl">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -610,7 +541,7 @@
                                             </connections>
                                         </matrix>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RhP-r8-Mz5">
-                                            <rect key="frame" x="5" y="9" width="64" height="27"/>
+                                            <rect key="frame" x="5" y="47" width="64" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="显示模式:" id="NQO-2h-Q6Z">
                                                 <font key="font" size="14" name=".PingFangSC-Regular"/>
@@ -618,11 +549,39 @@
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dUH-uL-yp4">
+                                            <rect key="frame" x="71" y="11" width="128" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="cellSize" width="62" height="28"/>
+                                            <size key="intercellSpacing" width="4" height="2"/>
+                                            <buttonCell key="prototype" type="radio" title="null" imagePosition="left" alignment="left" enabled="NO" inset="2" id="fXe-hH-8pS">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <cells>
+                                                <column>
+                                                    <buttonCell type="radio" title="UTF8" imagePosition="left" alignment="left" enabled="NO" state="on" tag="1" inset="2" id="rKS-hQ-xlV">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </column>
+                                                <column>
+                                                    <buttonCell type="radio" title="GBK" imagePosition="left" alignment="left" enabled="NO" tag="2" inset="2" id="8AZ-JJ-3hM">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </column>
+                                            </cells>
+                                            <connections>
+                                                <action selector="setStringDisplayEncode:" target="XfG-lQ-9wD" id="sJd-5r-rb0"/>
+                                            </connections>
+                                        </matrix>
                                     </subviews>
                                 </view>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KWG-7n-NC1">
-                                <rect key="frame" x="274" y="13" width="45" height="17"/>
+                                <rect key="frame" x="273" y="14" width="45" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="RX:" id="Blf-AI-MmQ">
                                     <font key="font" metaFont="system" size="16"/>
@@ -631,7 +590,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BbT-9Z-7ik">
-                                <rect key="frame" x="420" y="12" width="45" height="17"/>
+                                <rect key="frame" x="418" y="14" width="45" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="TX:" id="IAg-C5-7am">
                                     <font key="font" metaFont="system" size="16"/>
@@ -639,6 +598,103 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <box fixedFrame="YES" title="发送设置:" translatesAutoresizingMaskIntoConstraints="NO" id="apQ-Dd-YaJ">
+                                <rect key="frame" x="8" y="45" width="212" height="153"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="eIK-IE-bCX">
+                                    <rect key="frame" x="2" y="2" width="208" height="136"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5EX-b5-X9w">
+                                            <rect key="frame" x="2" y="70" width="204" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="发送" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0g-s6-26V">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="sendData:" target="XfG-lQ-9wD" id="gPB-aX-NOA"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5c-ug-Z7y">
+                                            <rect key="frame" x="2" y="99" width="204" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="清空发送区" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xZm-qv-IjM">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" size="15" name=".PingFangSC-Regular"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="clearTXDataDisplayTextView:" target="XfG-lQ-9wD" id="7VA-NL-bPT"/>
+                                            </connections>
+                                        </button>
+                                        <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygp-1u-cpE">
+                                            <rect key="frame" x="72" y="46" width="128" height="26"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="cellSize" width="62" height="26"/>
+                                            <size key="intercellSpacing" width="4" height="2"/>
+                                            <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="87h-zk-2CL">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <cells>
+                                                <column>
+                                                    <buttonCell type="radio" title="16进制" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="Tcn-o7-ABQ">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </column>
+                                                <column>
+                                                    <buttonCell type="radio" title="字符串" imagePosition="left" alignment="left" tag="2" inset="2" id="qT6-eE-Pn2">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </column>
+                                            </cells>
+                                            <connections>
+                                                <action selector="setDisplayMode_TX:" target="XfG-lQ-9wD" id="tpR-fc-OEA"/>
+                                            </connections>
+                                        </matrix>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x4F-if-VZn">
+                                            <rect key="frame" x="6" y="49" width="68" height="23"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="显示模式:" id="lBt-jr-B33">
+                                                <font key="font" size="14" name=".PingFangSC-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLO-bh-zyz">
+                                            <rect key="frame" x="72" y="10" width="128" height="28"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="cellSize" width="62" height="28"/>
+                                            <size key="intercellSpacing" width="4" height="2"/>
+                                            <buttonCell key="prototype" type="radio" title="null" imagePosition="left" alignment="left" enabled="NO" inset="2" id="5fh-Ib-lPz">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <cells>
+                                                <column>
+                                                    <buttonCell type="radio" title="UTF8" imagePosition="left" alignment="left" enabled="NO" state="on" tag="1" inset="2" id="PzB-rI-wXV">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </column>
+                                                <column>
+                                                    <buttonCell type="radio" title="GBK" imagePosition="left" alignment="left" enabled="NO" tag="2" inset="2" id="WS3-Lp-z60">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                </column>
+                                            </cells>
+                                            <connections>
+                                                <action selector="setStringDisplayEncode_TX:" target="XfG-lQ-9wD" id="dvt-Pe-whz"/>
+                                            </connections>
+                                        </matrix>
+                                    </subviews>
+                                </view>
+                            </box>
                         </subviews>
                     </view>
                     <connections>
@@ -648,12 +704,14 @@
                         <outlet property="StatusText" destination="ng4-L0-3cC" id="KGI-GR-Tlw"/>
                         <outlet property="TXCounter" destination="Bbq-Rs-yGd" id="seH-8U-S6s"/>
                         <outlet property="TXDataDisplayTextView" destination="Uy1-nd-yEM" id="CT4-av-HJi"/>
+                        <outlet property="stringType" destination="dUH-uL-yp4" id="0C4-tv-yMj"/>
+                        <outlet property="stringType_TX" destination="rLO-bh-zyz" id="2Bs-EC-CMz"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="wSw-wq-T3d"/>
             </objects>
-            <point key="canvasLocation" x="54.5" y="839"/>
+            <point key="canvasLocation" x="178.5" y="869"/>
         </scene>
     </scenes>
     <resources>
