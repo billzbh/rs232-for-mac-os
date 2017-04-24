@@ -25,4 +25,10 @@
 }
 
 
+- (BOOL)windowShouldClose:(id)sender //close box quits the app
+{
+    [NSApp terminate:self];
+    return YES;
+}
+
 @end
