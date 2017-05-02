@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2564D7FC1EB88D3400684866 /* NSMyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2564D7FB1EB88D3400684866 /* NSMyWindowController.m */; };
 		259CDD331E699F8E00D9A141 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259CDD321E699F8E00D9A141 /* IOKit.framework */; };
 		259CDD351E699F9800D9A141 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259CDD341E699F9800D9A141 /* Cocoa.framework */; };
 		259CDD411E69A1EF00D9A141 /* ORSSerialBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 259CDD381E69A1EF00D9A141 /* ORSSerialBuffer.m */; };
@@ -22,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2564D7FA1EB88D3400684866 /* NSMyWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSMyWindowController.h; sourceTree = "<group>"; };
+		2564D7FB1EB88D3400684866 /* NSMyWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSMyWindowController.m; sourceTree = "<group>"; };
 		259CDD321E699F8E00D9A141 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		259CDD341E699F9800D9A141 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		259CDD371E69A1EF00D9A141 /* ORSSerialBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORSSerialBuffer.h; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				259CDD361E69A1EF00D9A141 /* ORSSerialPort */,
+				2564D7FA1EB88D3400684866 /* NSMyWindowController.h */,
+				2564D7FB1EB88D3400684866 /* NSMyWindowController.m */,
 				25EF80571E69427500F258D0 /* AppDelegate.h */,
 				25EF80581E69427500F258D0 /* AppDelegate.m */,
 				25EF805D1E69427500F258D0 /* ViewController.h */,
@@ -202,6 +207,7 @@
 				25EF805F1E69427500F258D0 /* ViewController.m in Sources */,
 				25EF805C1E69427500F258D0 /* main.m in Sources */,
 				25EF80591E69427500F258D0 /* AppDelegate.m in Sources */,
+				2564D7FC1EB88D3400684866 /* NSMyWindowController.m in Sources */,
 				259CDD421E69A1EF00D9A141 /* ORSSerialPacketDescriptor.m in Sources */,
 				259CDD441E69A1EF00D9A141 /* ORSSerialPortManager.m in Sources */,
 				259CDD411E69A1EF00D9A141 /* ORSSerialBuffer.m in Sources */,

@@ -95,7 +95,7 @@
         //转为UTF8
         NSString *string = [NSString stringWithCString:cstr encoding:NSUTF8StringEncoding];
         //显示出来
-        [self.TXDataDisplayTextView setString:string];
+        [self.RXDataDisplayTextView setString:string];
         
     }else{
         _isRXGBKString = YES;
@@ -106,7 +106,7 @@
         NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
         NSString *string = [NSString stringWithCString:cstr encoding:enc];
         //显示出来
-        [self.TXDataDisplayTextView setString:string];
+        [self.RXDataDisplayTextView setString:string];
     }
 }
 
@@ -212,7 +212,7 @@
             NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
             string = [NSString stringWithCString:(const char*)[data bytes] encoding:enc];
         }else{
-            string = [NSString stringWithCString:(const char*)[data bytes] encoding:NSUTF8StringEncoding];
+            string = [NSString stringWithCString:(const char*)[data bytes] encoding:NSASCIIStringEncoding];
         }
     }
     if ([string length] == 0){
