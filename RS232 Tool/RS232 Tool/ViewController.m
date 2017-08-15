@@ -135,9 +135,18 @@
         textStr = [textStr stringByReplacingOccurrencesOfString:@"0x" withString:@""];
         textStr = [textStr stringByReplacingOccurrencesOfString:@"\\x" withString:@""];
         if (textStr.length%2!=0) {
-            self.StatusText.stringValue = @"发送16进制数据格式错误！";
+            self.StatusText.stringValue = @"发送16进制数据长度错误！";
             return;
         }
+        
+        NSString* number=@"^[a-f|A-F|0-9]+$";
+        NSPredicate *numberPre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",number];
+        if(![numberPre evaluateWithObject:textStr]){
+            self.StatusText.stringValue = @"包含非[0-9A-Fa-f]字符！";
+            return;
+        }
+        
+        
         self.TXNumber += textStr.length/2;
         [self.serialPort sendData:[ORSSerialPortManager twoOneData:textStr]];
         self.StatusText.stringValue = @"发送数据成功";
