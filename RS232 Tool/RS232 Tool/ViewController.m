@@ -88,27 +88,7 @@
 
 //设置接收区字符串编码方式
 - (IBAction)setStringDisplayEncode:(NSMatrix *)sender {
-    if (sender.selectedTag==1) {
-        _isRXGBKString = NO;
-        //原先字符串是GBK，获取为NSDATA
-        NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-        const char* cstr = [self.RXDataDisplayTextView.string cStringUsingEncoding:enc];;
-        //转为UTF8
-        NSString *string = [NSString stringWithCString:cstr encoding:NSUTF8StringEncoding];
-        //显示出来
-        [self.RXDataDisplayTextView setString:string];
-        
-    }else{
-        _isRXGBKString = YES;
-        
-        //原先字符串是UTF8，获取为NSDATA
-        const char* cstr = [self.RXDataDisplayTextView.string cStringUsingEncoding:NSUTF8StringEncoding];;
-        //转为GBK
-        NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-        NSString *string = [NSString stringWithCString:cstr encoding:enc];
-        //显示出来
-        [self.RXDataDisplayTextView setString:string];
-    }
+    [self.RXDataDisplayTextView setString:@""];
 }
 
 //设置发送区字符串编码方式
@@ -177,7 +157,7 @@
     
     //显示文字为深灰色，大小为14
     NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
-    NSString *sendStr = [NSString stringWithFormat:@"发送数据(HEX)：%@\n",[ORSSerialPortManager oneTwoData:sendData]];
+    NSString *sendStr = [NSString stringWithFormat:@"发送数据(HEX):%@\n",[ORSSerialPortManager oneTwoData:sendData]];
     NSInteger length = sendStr.length;
     [self.RXDataDisplayTextView.textStorage.mutableString appendString:sendStr];
     [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
