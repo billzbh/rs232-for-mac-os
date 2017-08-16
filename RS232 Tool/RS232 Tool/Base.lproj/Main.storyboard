@@ -7,30 +7,30 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--使用说明-->
         <scene sceneID="MhM-3s-LKE">
             <objects>
-                <viewController id="Tql-4w-yyU" sceneMemberID="viewController">
+                <viewController title="使用说明" id="Tql-4w-yyU" sceneMemberID="viewController">
                     <view key="view" id="e4z-SE-ZkO">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="271"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView wantsLayer="YES" fixedFrame="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pg-9H-kIF">
-                                <rect key="frame" x="20" y="20" width="410" height="260"/>
+                                <rect key="frame" x="20" y="20" width="410" height="231"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <clipView key="contentView" ambiguous="YES" id="3lN-Mj-RgV">
-                                    <rect key="frame" x="1" y="1" width="408" height="258"/>
+                                    <rect key="frame" x="1" y="1" width="408" height="229"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView ambiguous="YES" importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="32f-DL-Baj">
-                                            <rect key="frame" x="0.0" y="-1" width="408" height="258"/>
+                                        <textView ambiguous="YES" editable="NO" selectable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="32f-DL-Baj">
+                                            <rect key="frame" x="0.0" y="-1" width="408" height="229"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="408" height="258"/>
+                                            <size key="minSize" width="408" height="229"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <attributedString key="textStorage">
                                                 <fragment>
-                                                    <string key="content">说明: 1. 字符串支持UTF8编码时，已经包含标准ASCII码。 2. 16进制发送0x11，0x11两个字节时，可以使用【0x11 0x11】 或者【1111】或者【\x11\x11 】或者【 11 11】 3. 发送和接收区可以使用搜索功能          特别申明: 本工具基于ORSSerialPort 开源库制作，学习之作。 我的邮箱:bill_zbh@163.com</string>
+                                                    <string key="content">说明: 1. 字符串支持UTF8编码时，已经包含标准ASCII码。 2. 16进制发送0x11，0x11两个字节时，可以使用【0x11 0x11】 或者【1111】或者【\x11\x11 】或者【 11 11】或者 【0x11,0x11】 3. 发送和接收区可以使用搜索功能          特别申明: 本工具基于ORSSerialPort 开源库制作，学习之作。 我的邮箱:bill_zbh@163.com</string>
                                                     <attributes>
                                                         <font key="NSFont" size="11" name=".PingFangSC-Regular"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
@@ -56,7 +56,7 @@
                 </viewController>
                 <customObject id="C5s-cc-5Yw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="230" y="-287"/>
+            <point key="canvasLocation" x="230" y="-301.5"/>
         </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
@@ -84,6 +84,29 @@
                                         <menuItem title="Quit RS232 Tool" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="File" id="0Ib-7L-x49">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="File" id="mFr-MY-U0Y">
+                                    <items>
+                                        <menuItem title="Save As…" keyEquivalent="S" id="ufs-xs-BIL">
+                                            <connections>
+                                                <action selector="saveDocumentAs:" target="Ady-hI-5gd" id="8FM-JK-x3w"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="SP3-Lh-uMb"/>
+                                        <menuItem title="Page Setup…" keyEquivalent="P" id="oVY-Of-goI">
+                                            <connections>
+                                                <action selector="runPageLayout:" target="Ady-hI-5gd" id="WEr-N2-mFa"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Print…" keyEquivalent="p" id="nzf-F4-qvt">
+                                            <connections>
+                                                <action selector="print:" target="Ady-hI-5gd" id="7Sg-xJ-x1a"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -226,7 +249,7 @@
                                                 <rect key="frame" x="1" y="1" width="418" height="305"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textView ambiguous="YES" editable="NO" importsGraphics="NO" usesFontPanel="YES" findStyle="bar" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="ZfY-TO-oyW">
+                                                    <textView ambiguous="YES" editable="NO" usesFontPanel="YES" findStyle="bar" continuousSpellChecking="YES" allowsDocumentBackgroundColorChange="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" smartInsertDelete="YES" id="ZfY-TO-oyW">
                                                         <rect key="frame" x="0.0" y="-1" width="418" height="305"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -264,7 +287,7 @@
                                                 <rect key="frame" x="1" y="1" width="418" height="123"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <textView ambiguous="YES" importsGraphics="NO" richText="NO" usesFontPanel="YES" findStyle="bar" usesRuler="YES" allowsNonContiguousLayout="YES" id="Uy1-nd-yEM">
+                                                    <textView ambiguous="YES" importsGraphics="NO" usesFontPanel="YES" findStyle="bar" usesRuler="YES" allowsNonContiguousLayout="YES" id="Uy1-nd-yEM">
                                                         <rect key="frame" x="0.0" y="0.0" width="418" height="123"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

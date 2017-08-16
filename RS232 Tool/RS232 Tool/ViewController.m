@@ -48,6 +48,7 @@
     self.TXNumber = 0;
     self.RXNumber = 0;
     // Do any additional setup after loading the view.
+    self.TXDataDisplayTextView.delegate = self;
 }
 
 
@@ -129,8 +130,10 @@
         return;
     }
     
+    NSData *sendData;
+    
     if (self.isTXHexString) {
-        
+        textStr = [textStr stringByReplacingOccurrencesOfString:@"," withString:@""];
         textStr = [textStr stringByReplacingOccurrencesOfString:@" " withString:@""];
         textStr = [textStr stringByReplacingOccurrencesOfString:@"0x" withString:@""];
         textStr = [textStr stringByReplacingOccurrencesOfString:@"\\x" withString:@""];
@@ -148,7 +151,8 @@
         
         
         self.TXNumber += textStr.length/2;
-        [self.serialPort sendData:[ORSSerialPortManager twoOneData:textStr]];
+        sendData = [ORSSerialPortManager twoOneData:textStr];
+        [self.serialPort sendData:sendData];
         self.StatusText.stringValue = @"发送数据成功";
         self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
         
@@ -165,12 +169,19 @@
         }
         if(cstr!=NULL){
             self.TXNumber += strlen(cstr);
-            NSData *sendData = [NSData dataWithBytes:cstr length:strlen(cstr)];
+            sendData = [NSData dataWithBytes:cstr length:strlen(cstr)];
             [self.serialPort sendData:sendData];
             self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
-            return;
         }
     }
+    
+    //显示文字为深灰色，大小为14
+    NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
+    NSString *sendStr = [NSString stringWithFormat:@"发送数据(HEX)：%@\n",[ORSSerialPortManager oneTwoData:sendData]];
+    NSInteger length = sendStr.length;
+    [self.RXDataDisplayTextView.textStorage.mutableString appendString:sendStr];
+    [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
+    [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor darkGrayColor] range:NSMakeRange(startPorint, length)];
 }
 
 - (IBAction)clearTXDataDisplayTextView:(id)sender {
@@ -189,6 +200,14 @@
     self.TXNumber = 0;
     self.TXCounter.stringValue=@"";
     self.RXCounter.stringValue = @"";
+}
+
+
+-(void)textDidChange:(NSNotification *)notification {
+    
+    [self.TXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:18] range:NSMakeRange(0, [self.TXDataDisplayTextView string].length)];
+    [self.TXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(0, [self.TXDataDisplayTextView string].length)];
+    [self.TXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0, [self.TXDataDisplayTextView string].length)];
 }
 
 #pragma mark - ORSSerialPortDelegate Methods
@@ -227,7 +246,24 @@
     if ([string length] == 0){
         return;
     }
+    
+    
+    //显示文字为深灰色，大小为14
+    NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
+    NSInteger length = string.length;
     [self.RXDataDisplayTextView.textStorage.mutableString appendString:string];
+    [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
+    
+    static int i = 0;
+    if(i%2==0){
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor greenColor] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor brownColor] range:NSMakeRange(startPorint, length)];
+    }else{
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor yellowColor] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(startPorint, length)];
+    }
+    i++;
+    
     [self.RXDataDisplayTextView setNeedsDisplay:YES];
     self.StatusText.stringValue = @"数据接收完毕";
 }
