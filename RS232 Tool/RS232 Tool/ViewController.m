@@ -49,6 +49,17 @@
     self.RXNumber = 0;
     // Do any additional setup after loading the view.
     self.TXDataDisplayTextView.delegate = self;
+    self.tableviewFordevices.delegate = self;
+    
+    
+}
+
+-(void)viewDidAppear{
+    [super viewDidAppear];
+    
+    if(self.serialPortManager.availablePorts.count>0){
+        self.serialPort=self.serialPortManager.availablePorts[0];
+    }
 }
 
 
@@ -132,26 +143,37 @@
         
         self.TXNumber += textStr.length/2;
         sendData = [ORSSerialPortManager twoOneData:textStr];
-        [self.serialPort sendData:sendData];
-        self.StatusText.stringValue = @"发送数据成功";
-        self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
+        if([self.serialPort sendData:sendData]){
+            self.StatusText.stringValue = @"发送数据成功";
+            self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
+        }else{
+            self.StatusText.stringValue = @"发送数据失败";
+            return;
+        }
+        
         
     }else{
         
         const char* cstr;
+        NSString *tmp;
         if (_isTXGBKString) {
             NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
             cstr = [textStr cStringUsingEncoding:enc];
-            self.StatusText.stringValue = @"发送GBK编码数据成功";
+            tmp = @"发送GBK编码数据成功";
         }else{
             cstr = [textStr cStringUsingEncoding:NSUTF8StringEncoding];
-            self.StatusText.stringValue = @"发送UTF8编码数据成功";
+            tmp = @"发送UTF8编码数据成功";
         }
         if(cstr!=NULL){
             self.TXNumber += strlen(cstr);
             sendData = [NSData dataWithBytes:cstr length:strlen(cstr)];
-            [self.serialPort sendData:sendData];
-            self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
+            if([self.serialPort sendData:sendData]){
+                self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
+                self.StatusText.stringValue = tmp;
+            }else{
+                self.StatusText.stringValue = @"发送数据失败";
+                return;
+            }
         }
     }
     
@@ -206,6 +228,9 @@
 
 - (void)serialPort:(ORSSerialPort *)serialPort didReceiveData:(NSData *)data
 {
+    if(serialPort!=self.serialPort){//不是同一个对象，直接返回
+        return;
+    }
     NSLog(@"收到数据: %@",data);
     self.StatusText.stringValue = @"收到一次数据...";
     self.RXNumber += data.length;
@@ -306,8 +331,8 @@
     for (ORSSerialPort *port in connectedPorts)
     {
         NSUserNotification *userNote = [[NSUserNotification alloc] init];
-        userNote.title = NSLocalizedString(@"Serial Port Connected", @"Serial Port Connected");
-        NSString *informativeTextFormat = NSLocalizedString(@"Serial Port %@ was connected to your Mac.", @"Serial port connected user notification informative text");
+        userNote.title = NSLocalizedString(@"侦测到串口线连接", @"侦测到串口线连接");
+        NSString *informativeTextFormat = NSLocalizedString(@"串口设备 %@ 已经连接到你的 Mac电脑.", @"Serial port connected user notification informative text");
         userNote.informativeText = [NSString stringWithFormat:informativeTextFormat, port.name];
         userNote.soundName = nil;
         [unc deliverNotification:userNote];
@@ -324,13 +349,19 @@
     for (ORSSerialPort *port in disconnectedPorts)
     {
         NSUserNotification *userNote = [[NSUserNotification alloc] init];
-        userNote.title = NSLocalizedString(@"Serial Port Disconnected", @"Serial Port Disconnected");
-        NSString *informativeTextFormat = NSLocalizedString(@"Serial Port %@ was disconnected from your Mac.", @"Serial port disconnected user notification informative text");
+        userNote.title = NSLocalizedString(@"侦测到串口线断开", @"侦测到串口线断开");
+        NSString *informativeTextFormat = NSLocalizedString(@"串口设备 %@ 已从你的 Mac电脑断开物理连接.", @"Serial port disconnected user notification informative text");
         userNote.informativeText = [NSString stringWithFormat:informativeTextFormat, port.name];
         userNote.soundName = nil;
         [unc deliverNotification:userNote];
     }
 #endif
+}
+
+-(void)tableViewSelectionDidChange:(NSNotification*)notification{
+    
+    NSTableView *tableview = notification.object;
+    self.serialPort =self.serialPortManager.availablePorts[tableview.selectedRow];
 }
 
 
@@ -340,12 +371,13 @@
 {
     if (port != _serialPort)
     {
-        [_serialPort close];
+//        [_serialPort close];
         _serialPort.delegate = nil;
-        
         _serialPort = port;
-        
         _serialPort.delegate = self;
+        self.OpenOrClose.title = self.serialPort.isOpen ? @"关闭串口" : @"打开串口";
+        NSString *tmp=[NSString stringWithFormat:@"%@%@",_serialPort.name,(self.serialPort.isOpen ? @"串口已打开" : @"串口已关闭")];
+        self.StatusText.stringValue = tmp;
     }
 }
 

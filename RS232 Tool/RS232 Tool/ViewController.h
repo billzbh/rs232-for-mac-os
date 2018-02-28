@@ -11,7 +11,7 @@
 
 @class ORSSerialPortManager;
 
-@interface ViewController : NSViewController <ORSSerialPortDelegate, NSUserNotificationCenterDelegate,NSTextViewDelegate>
+@interface ViewController : NSViewController <ORSSerialPortDelegate, NSUserNotificationCenterDelegate,NSTextViewDelegate,NSTableViewDelegate>
 @property (weak) IBOutlet NSButton *OpenOrClose;
 
 @property (weak) IBOutlet NSTextField *StatusText;
@@ -36,8 +36,9 @@
 @property (nonatomic, assign) BOOL isTXGBKString;
 
 @property (nonatomic, strong) ORSSerialPortManager *serialPortManager;
-@property (nonatomic, strong) ORSSerialPort *serialPort;
+@property (nonatomic, strong) ORSSerialPort *serialPort;//ORSSerialPort
 @property (nonatomic, strong) NSArray *availableBaudRates;
+@property (weak) IBOutlet NSTableView *tableviewFordevices;
 
 @end
 
