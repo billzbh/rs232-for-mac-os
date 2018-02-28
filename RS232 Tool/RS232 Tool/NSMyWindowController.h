@@ -10,4 +10,7 @@
 
 @interface NSMyWindowController : NSWindowController
 
+
+@property (weak) IBOutlet NSWindow *myWindow;
+
 @end

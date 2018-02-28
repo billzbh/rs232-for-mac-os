@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "ORSSerialPortManager.h"
 
+@class AMPathPopUpButton;
 @implementation ViewController
 
 
@@ -50,8 +51,6 @@
     // Do any additional setup after loading the view.
     self.TXDataDisplayTextView.delegate = self;
     self.tableviewFordevices.delegate = self;
-    
-    
 }
 
 -(void)viewDidAppear{
@@ -381,4 +380,40 @@
     }
 }
 
+
+// 保存日志文件
+- (IBAction)SaveLog:(id)sender {
+    
+
+    NSSavePanel*  panel = [NSSavePanel savePanel];
+    [panel setNameFieldStringValue:[NSString stringWithFormat:@"serialPort-%@.txt",[self getDateTime]]];
+    [panel setMessage:@"选择存储路径"];
+    [panel setAllowsOtherFileTypes:YES];
+    [panel setAllowedFileTypes:@[@"txt"]];
+    [panel setExtensionHidden:YES];
+    [panel setCanCreateDirectories:YES];
+    
+    [panel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
+        if (result == NSFileHandlingPanelOKButton)
+        {
+            NSString *path = [[panel URL] path];
+    
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.RXDataDisplayTextView.textStorage.mutableString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+            });
+        }
+    }];
+}
+- (NSString *)getDateTime
+{
+    char dateTime[15];
+    time_t t;
+    struct tm tm;
+    t = time( NULL );
+    memcpy(&tm, localtime(&t), sizeof(struct tm));
+    sprintf(dateTime, "%04d%02d%02d%02d%02d",
+            tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
+            tm.tm_hour, tm.tm_min);
+    return [[NSString alloc] initWithCString:dateTime encoding:NSASCIIStringEncoding];
+}
 @end

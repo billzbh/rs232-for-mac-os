@@ -12,6 +12,7 @@
 @class ORSSerialPortManager;
 
 @interface ViewController : NSViewController <ORSSerialPortDelegate, NSUserNotificationCenterDelegate,NSTextViewDelegate,NSTableViewDelegate>
+
 @property (weak) IBOutlet NSButton *OpenOrClose;
 
 @property (weak) IBOutlet NSTextField *StatusText;

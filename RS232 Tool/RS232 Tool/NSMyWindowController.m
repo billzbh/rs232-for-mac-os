@@ -9,7 +9,7 @@
 #import "NSMyWindowController.h"
 
 @interface NSMyWindowController () <NSWindowDelegate>
-@property (weak) IBOutlet NSWindow *myWindow;
+
 
 @end
 
@@ -27,5 +27,7 @@
     [NSApp terminate:self];
     return YES;
 }
+
+
 
 @end
