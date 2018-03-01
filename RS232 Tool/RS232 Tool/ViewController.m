@@ -98,7 +98,13 @@
 
 //设置接收区字符串编码方式
 - (IBAction)setStringDisplayEncode:(NSMatrix *)sender {
-    [self.RXDataDisplayTextView setString:@""];
+    if (sender.selectedTag==1) {
+        self.isRXGBKString = NO;
+        [self.RXDataDisplayTextView.textStorage.mutableString appendString:@"接收区格式变更为--> ASCII\n"];
+    }else{
+        self.isRXGBKString = YES;
+       [self.RXDataDisplayTextView.textStorage.mutableString appendString:@"接收区格式变更为--> GBK\n"];
+    }
 }
 
 //设置发送区字符串编码方式
@@ -143,14 +149,20 @@
         self.TXNumber += textStr.length/2;
         sendData = [ORSSerialPortManager twoOneData:textStr];
         if([self.serialPort sendData:sendData]){
-            self.StatusText.stringValue = @"发送数据成功";
+            self.StatusText.stringValue = @"发送HEX数据成功";
             self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
         }else{
-            self.StatusText.stringValue = @"发送数据失败";
-            return;
+            self.StatusText.stringValue = @"发送HEX数据失败";
         }
         
-        
+        //显示文字为深灰色，大小为14
+        NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
+        NSString *sendStr = [NSString stringWithFormat:@"%@:\n%@\n",self.StatusText.stringValue,textStr];
+        NSInteger length = sendStr.length;
+        [self.RXDataDisplayTextView.textStorage.mutableString appendString:sendStr];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor darkGrayColor] range:NSMakeRange(startPorint, length)];
+        return;
     }else{
         
         const char* cstr;
@@ -171,18 +183,20 @@
                 self.StatusText.stringValue = tmp;
             }else{
                 self.StatusText.stringValue = @"发送数据失败";
-                return;
             }
+        }else{
+            self.StatusText.stringValue=@"字符串按选定编码转为字节流失败";
         }
+        
+        //显示文字为深灰色，大小为14
+        NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
+        NSString *sendStr = [NSString stringWithFormat:@"%@:\n%@\n(HEX)->%@\n",self.StatusText.stringValue,textStr,[ORSSerialPortManager oneTwoData:sendData]];
+        NSInteger length = sendStr.length;
+        [self.RXDataDisplayTextView.textStorage.mutableString appendString:sendStr];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor darkGrayColor] range:NSMakeRange(startPorint, length)];
+        return;
     }
-    
-    //显示文字为深灰色，大小为14
-    NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
-    NSString *sendStr = [NSString stringWithFormat:@"发送数据(HEX):%@\n",[ORSSerialPortManager oneTwoData:sendData]];
-    NSInteger length = sendStr.length;
-    [self.RXDataDisplayTextView.textStorage.mutableString appendString:sendStr];
-    [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
-    [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor darkGrayColor] range:NSMakeRange(startPorint, length)];
 }
 
 - (IBAction)clearTXDataDisplayTextView:(id)sender {
@@ -404,6 +418,7 @@
         }
     }];
 }
+
 - (NSString *)getDateTime
 {
     char dateTime[15];
