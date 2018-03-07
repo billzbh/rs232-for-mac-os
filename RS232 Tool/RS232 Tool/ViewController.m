@@ -256,9 +256,10 @@
         
         if(self.isRXGBKString){
             NSStringEncoding enc =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-            string = [NSString stringWithCString:(const char*)[data bytes] encoding:enc];
+//            string = [NSString stringWithCString:(const char*)[data bytes] encoding:enc];
+            string = [[NSString alloc] initWithData:data encoding:enc];
         }else{
-            string = [NSString stringWithCString:(const char*)[data bytes] encoding:NSASCIIStringEncoding];
+            string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         }
     }
     if ([string length] == 0){
@@ -293,10 +294,12 @@
     self.OpenOrClose.title = @"打开串口";
 }
 
+//各种错误，比如打开，关闭，发送数据等发生错误
 - (void)serialPort:(ORSSerialPort *)serialPort didEncounterError:(NSError *)error
 {
     NSLog(@"Serial port %@ encountered an error: %@", serialPort, error);
     self.StatusText.stringValue = [NSString stringWithFormat:@"错误:%@",error.userInfo[@"NSLocalizedDescription"]];
+    
 }
 
 #pragma mark - NSUserNotificationCenterDelegate
@@ -372,9 +375,16 @@
 }
 
 -(void)tableViewSelectionDidChange:(NSNotification*)notification{
-    
-    NSTableView *tableview = notification.object;
-    self.serialPort =self.serialPortManager.availablePorts[tableview.selectedRow];
+    self.serialPort = [self getCurrentORSSerialPort];
+    self.serialPort.allowsNonStandardBaudRates = YES;//允许非标准的波特率
+}
+
+-(ORSSerialPort *)getCurrentORSSerialPort {
+    if([[self.DeviceArray selectedObjects] count]> 0){
+        return [[self.DeviceArray selectedObjects] objectAtIndex:0];
+    } else {
+        return nil;
+    }
 }
 
 

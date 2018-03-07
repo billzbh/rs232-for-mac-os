@@ -116,13 +116,13 @@
                                             <attributedString key="attributedTitle">
                                                 <fragment content="关于">
                                                     <attributes>
-                                                        <font key="NSFont" size="11" name=".PingFangSC-Regular"/>
+                                                        <font key="NSFont" size="13" name=".PingFangSC-Regular"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
                                                 <fragment content="RS232 Tool">
                                                     <attributes>
-                                                        <font key="NSFont" metaFont="smallSystem"/>
+                                                        <font key="NSFont" metaFont="system"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -474,14 +474,14 @@
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="zZS-Ju-O7y">
                                             <rect key="frame" x="101" y="114" width="90" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <popUpButtonCell key="cell" type="push" title="None(无)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Zen-hG-rei" id="skW-hr-FPd">
+                                            <popUpButtonCell key="cell" type="push" title="Even(偶)" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="VN8-k8-efD" id="skW-hr-FPd">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" id="woS-hc-Ptt">
                                                     <items>
-                                                        <menuItem title="None(无)" state="on" id="Zen-hG-rei"/>
+                                                        <menuItem title="None(无)" id="Zen-hG-rei"/>
                                                         <menuItem title="Odd(奇)" id="hGE-So-7cA"/>
-                                                        <menuItem title="Even(偶)" id="VN8-k8-efD"/>
+                                                        <menuItem title="Even(偶)" state="on" id="VN8-k8-efD"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
@@ -616,7 +616,7 @@
                                             </buttonCell>
                                             <cells>
                                                 <column>
-                                                    <buttonCell type="radio" title="ASCII" imagePosition="left" alignment="left" enabled="NO" state="on" tag="1" inset="2" id="rKS-hQ-xlV">
+                                                    <buttonCell type="radio" title="UTF8" imagePosition="left" alignment="left" enabled="NO" state="on" tag="1" inset="2" id="rKS-hQ-xlV">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -701,7 +701,7 @@
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x4F-if-VZn">
                                             <rect key="frame" x="6" y="98" width="68" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="显示模式:" id="lBt-jr-B33">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="发送格式:" id="lBt-jr-B33">
                                                 <font key="font" size="14" name=".PingFangSC-Regular"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -836,7 +836,7 @@
                                 <font key="titleFont" size="13" name=".AppleSystemUIFont"/>
                             </box>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5EX-b5-X9w">
-                                <rect key="frame" x="670" y="4" width="158" height="32"/>
+                                <rect key="frame" x="687" y="8" width="141" height="66"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="发送" bezelStyle="rounded" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="b0g-s6-26V">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -849,6 +849,7 @@
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="DeviceArray" destination="l0s-1Q-7wo" id="jbL-zG-fk9"/>
                         <outlet property="OpenOrClose" destination="CN3-yn-HXj" id="UgG-v0-6tQ"/>
                         <outlet property="RXCounter" destination="O9H-GS-60T" id="Gpc-dD-rs2"/>
                         <outlet property="RXDataDisplayTextView" destination="ZfY-TO-oyW" id="9bR-I4-wM3"/>
