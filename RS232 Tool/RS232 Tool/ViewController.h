@@ -30,6 +30,10 @@
 @property (weak) IBOutlet NSMatrix *stringType;
 @property (weak) IBOutlet NSMatrix *stringType_TX;
 
+@property (weak) IBOutlet NSTextField *TimeInternel;
+@property (weak) IBOutlet NSTextField *countOfSend;
+@property (weak) IBOutlet NSButton *SendButton;
+
 @property (nonatomic, assign) BOOL isRXHexString;
 
 @property (nonatomic, assign) BOOL isTXHexString;
@@ -42,5 +46,12 @@
 @property (nonatomic, strong) NSArray *availableBaudRates;
 @property (weak) IBOutlet NSTableView *tableviewFordevices;
 
+@property (nonatomic,strong) NSSavePanel*  panel;
+@property (nonatomic, assign) BOOL isLoopSend;
+@property (nonatomic, assign) BOOL isWorkInSend;
+
+@property (assign,nonatomic) int sendCount;
+@property (assign,nonatomic) NSTimer *timer;
+@property (nonatomic, strong) NSWindow *MyMoneyWindow;
 @end
 

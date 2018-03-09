@@ -20,6 +20,9 @@
 		25EF805F1E69427500F258D0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EF805E1E69427500F258D0 /* ViewController.m */; };
 		25EF80611E69427500F258D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25EF80601E69427500F258D0 /* Assets.xcassets */; };
 		25EF80641E69427500F258D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25EF80621E69427500F258D0 /* Main.storyboard */; };
+		E10C340120527CF100DA13BE /* MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E10C340020527CF100DA13BE /* MainWindow.m */; };
+		E10C340420527D9C00DA13BE /* HelpWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = E10C340320527D9C00DA13BE /* HelpWindow.m */; };
+		E10C3407205281E700DA13BE /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E10C3406205281E700DA13BE /* HelpViewController.m */; };
 		E1D9B8D820463BB50021F43D /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9B8D720463BB50021F43D /* Automator.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +50,12 @@
 		25EF80601E69427500F258D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25EF80631E69427500F258D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		25EF80651E69427500F258D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E10C33FF20527CF100DA13BE /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
+		E10C340020527CF100DA13BE /* MainWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindow.m; sourceTree = "<group>"; };
+		E10C340220527D9C00DA13BE /* HelpWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpWindow.h; sourceTree = "<group>"; };
+		E10C340320527D9C00DA13BE /* HelpWindow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpWindow.m; sourceTree = "<group>"; };
+		E10C3405205281E700DA13BE /* HelpViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		E10C3406205281E700DA13BE /* HelpViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		E1D9B8D720463BB50021F43D /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = System/Library/Frameworks/Automator.framework; sourceTree = SDKROOT; };
 		E1D9B8D920466C140021F43D /* RS232 Tool.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RS232 Tool.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,16 +124,22 @@
 			children = (
 				E1D9B8D920466C140021F43D /* RS232 Tool.entitlements */,
 				259CDD361E69A1EF00D9A141 /* ORSSerialPort */,
-				2564D7FA1EB88D3400684866 /* NSMyWindowController.h */,
-				2564D7FB1EB88D3400684866 /* NSMyWindowController.m */,
 				25EF80571E69427500F258D0 /* AppDelegate.h */,
 				25EF80581E69427500F258D0 /* AppDelegate.m */,
+				2564D7FA1EB88D3400684866 /* NSMyWindowController.h */,
+				2564D7FB1EB88D3400684866 /* NSMyWindowController.m */,
+				E10C33FF20527CF100DA13BE /* MainWindow.h */,
+				E10C340020527CF100DA13BE /* MainWindow.m */,
 				25EF805D1E69427500F258D0 /* ViewController.h */,
 				25EF805E1E69427500F258D0 /* ViewController.m */,
 				25EF80601E69427500F258D0 /* Assets.xcassets */,
 				25EF80621E69427500F258D0 /* Main.storyboard */,
 				25EF80651E69427500F258D0 /* Info.plist */,
 				25EF805A1E69427500F258D0 /* Supporting Files */,
+				E10C340220527D9C00DA13BE /* HelpWindow.h */,
+				E10C340320527D9C00DA13BE /* HelpWindow.m */,
+				E10C3405205281E700DA13BE /* HelpViewController.h */,
+				E10C3406205281E700DA13BE /* HelpViewController.m */,
 			);
 			path = "RS232 Tool";
 			sourceTree = "<group>";
@@ -214,10 +229,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				259CDD451E69A1EF00D9A141 /* ORSSerialRequest.m in Sources */,
+				E10C340420527D9C00DA13BE /* HelpWindow.m in Sources */,
 				259CDD431E69A1EF00D9A141 /* ORSSerialPort.m in Sources */,
+				E10C340120527CF100DA13BE /* MainWindow.m in Sources */,
 				25EF805F1E69427500F258D0 /* ViewController.m in Sources */,
 				25EF805C1E69427500F258D0 /* main.m in Sources */,
 				25EF80591E69427500F258D0 /* AppDelegate.m in Sources */,
+				E10C3407205281E700DA13BE /* HelpViewController.m in Sources */,
 				2564D7FC1EB88D3400684866 /* NSMyWindowController.m in Sources */,
 				259CDD421E69A1EF00D9A141 /* ORSSerialPacketDescriptor.m in Sources */,
 				259CDD441E69A1EF00D9A141 /* ORSSerialPortManager.m in Sources */,

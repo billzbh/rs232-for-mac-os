@@ -27,6 +27,17 @@
 #if (MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_7)
         [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
 #endif
+        
+        _panel = [NSSavePanel savePanel];
+        [_panel setMessage:@"选择存储路径"];
+        [_panel setAllowsOtherFileTypes:YES];
+        [_panel setAllowedFileTypes:@[@"txt"]];
+        [_panel setExtensionHidden:YES];
+        [_panel setCanCreateDirectories:YES];
+        self.isLoopSend = NO;
+        self.isWorkInSend = NO;
+        
+        self.MyMoneyWindow =((NSWindowController *)[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"HelpWindow And Read Me"]).window;
     });
 }
 
@@ -66,6 +77,27 @@
     [super setRepresentedObject:representedObject];
     // Update the view, if already loaded.
 }
+
+- (IBAction)helpButtonAction:(NSButton *)sender {
+    [self.view.window beginSheet:self.MyMoneyWindow completionHandler:^(NSModalResponse returnCode) {
+    }];
+}
+
+
+//设置循环发送数据
+- (IBAction)setSendLoop:(NSButton *)sender {
+    if(sender.intValue==1){
+        [self.countOfSend setEnabled:YES];
+        [self.TimeInternel setEnabled:YES];
+        self.isLoopSend = YES;
+    }else{
+        [self.countOfSend setEnabled:NO];
+        [self.TimeInternel setEnabled:NO];
+        self.isLoopSend = NO;
+    }
+    [self stopTimer];
+}
+
 
 - (IBAction)openComPort:(id)sender {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -117,7 +149,14 @@
 }
 
 
-- (IBAction)sendData:(id)sender {
+//发送数据
+- (IBAction)sendData:(NSButton *)sender {
+    
+    //停止循环发送
+    if (self.isWorkInSend) {
+        [self stopTimer];
+        return;
+    }
     
     self.StatusText.stringValue = @"发送数据中...";
     NSString *textStr = self.TXDataDisplayTextView.textStorage.mutableString;
@@ -126,8 +165,49 @@
         return;
     }
     
+    if (_isLoopSend) {
+        //获取次数和间隔值
+        _sendCount = [self.countOfSend.stringValue intValue];
+        double timeout = [self.TimeInternel.stringValue doubleValue]/1000.0;
+        
+        if(_sendCount<=0 || timeout <= 0){
+            self.StatusText.stringValue = @"请填入循环发送参数(时间间隔和次数)";
+            return;
+        }
+        
+        _timer = [NSTimer scheduledTimerWithTimeInterval:timeout target:self selector:@selector(timeout) userInfo:nil repeats:YES];
+        self.StatusText.stringValue = @"循环发送中...";
+        self.SendButton.title = @"停止循环发送";
+        _isWorkInSend = YES;
+        
+    }else{
+        [self sendDataWithPort];
+    }
+}
+
+-(void)stopTimer{
+    [_timer invalidate];
+    _timer = nil;
+    if (_isLoopSend) {
+        self.SendButton.title = @"循环发送";
+    }else{
+        self.SendButton.title = @"手动发送";
+    }
+    self.isWorkInSend = NO;
+}
+
+-(void)timeout{
+    if (0 ==_sendCount) {
+        [self stopTimer];
+        return;
+    }
+    [self sendDataWithPort];
+    _sendCount --;
+}
+
+-(void)sendDataWithPort{
     NSData *sendData;
-    
+    NSString *textStr = self.TXDataDisplayTextView.textStorage.mutableString;
     if (self.isTXHexString) {
         textStr = [textStr stringByReplacingOccurrencesOfString:@"," withString:@""];
         textStr = [textStr stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -157,11 +237,13 @@
         
         //显示文字为深灰色，大小为14
         NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
-        NSString *sendStr = [NSString stringWithFormat:@"%@:\n%@\n",self.StatusText.stringValue,textStr];
+        NSString *sendStr = [NSString stringWithFormat:@"%@ 发送 > %@\n",[self get2DateTime],[ORSSerialPortManager oneTwoData:sendData]];
         NSInteger length = sendStr.length;
         [self.RXDataDisplayTextView.textStorage.mutableString appendString:sendStr];
-        [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Andale Mono" size:14] range:NSMakeRange(startPorint, length)];
         [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor darkGrayColor] range:NSMakeRange(startPorint, length)];
+        
+        [self.RXDataDisplayTextView scrollRangeToVisible:NSMakeRange(self.RXDataDisplayTextView.string.length, 1)];
         return;
     }else{
         
@@ -183,18 +265,22 @@
                 self.StatusText.stringValue = tmp;
             }else{
                 self.StatusText.stringValue = @"发送数据失败";
+                return;
             }
         }else{
             self.StatusText.stringValue=@"字符串按选定编码转为字节流失败";
+            return;
         }
         
         //显示文字为深灰色，大小为14
         NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
-        NSString *sendStr = [NSString stringWithFormat:@"%@:\n%@\n(HEX)->%@\n",self.StatusText.stringValue,textStr,[ORSSerialPortManager oneTwoData:sendData]];
+        NSString *sendStr = [NSString stringWithFormat:@"%@ 发送 > %@\n(HEX)->%@\n",[self get2DateTime],textStr,[ORSSerialPortManager oneTwoData:sendData]];
         NSInteger length = sendStr.length;
         [self.RXDataDisplayTextView.textStorage.mutableString appendString:sendStr];
-        [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Andale Mono" size:14] range:NSMakeRange(startPorint, length)];
         [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor darkGrayColor] range:NSMakeRange(startPorint, length)];
+        
+        [self.RXDataDisplayTextView scrollRangeToVisible:NSMakeRange(self.RXDataDisplayTextView.string.length, 1)];
         return;
     }
 }
@@ -215,12 +301,13 @@
     self.TXNumber = 0;
     self.TXCounter.stringValue=@"";
     self.RXCounter.stringValue = @"";
+    
 }
 
 
 -(void)textDidChange:(NSNotification *)notification {
     
-    [self.TXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:18] range:NSMakeRange(0, [self.TXDataDisplayTextView string].length)];
+    [self.TXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Andale Mono" size:18] range:NSMakeRange(0, [self.TXDataDisplayTextView string].length)];
     [self.TXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(0, [self.TXDataDisplayTextView string].length)];
     [self.TXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor whiteColor] range:NSMakeRange(0, [self.TXDataDisplayTextView string].length)];
 }
@@ -266,21 +353,28 @@
         return;
     }
     
+    int prelen = (int)string.length;
+    string = [NSString stringWithFormat:@"%@ 接收 > %@\n",[self get2DateTime],string];
+    prelen = (int)string.length-prelen-1;
     
     //显示文字为深灰色，大小为14
     NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
     NSInteger length = string.length;
     [self.RXDataDisplayTextView.textStorage.mutableString appendString:string];
-    [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:14] range:NSMakeRange(startPorint, length)];
+    [self.RXDataDisplayTextView.textStorage addAttribute:NSFontAttributeName value:[NSFont fontWithName:@"Andale Mono" size:14] range:NSMakeRange(startPorint, length)];
+    
+    //前面提示语句设为红色
+    [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor redColor] range:NSMakeRange(startPorint, prelen)];
     
     static int i = 0;
     if(i%2==0){
-        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor greenColor] range:NSMakeRange(startPorint, length)];
-        [self.RXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor brownColor] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor greenColor] range:NSMakeRange(startPorint+prelen, length-prelen-1)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor brownColor] range:NSMakeRange(startPorint+prelen, length-prelen-1)];
     }else{
-        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor yellowColor] range:NSMakeRange(startPorint, length)];
-        [self.RXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(startPorint, length)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSForegroundColorAttributeName value:[NSColor yellowColor] range:NSMakeRange(startPorint+prelen, length-prelen-1)];
+        [self.RXDataDisplayTextView.textStorage addAttribute:NSBackgroundColorAttributeName value:[NSColor blackColor] range:NSMakeRange(startPorint+prelen, length-prelen-1)];
     }
+    [self.RXDataDisplayTextView scrollRangeToVisible:NSMakeRange(self.RXDataDisplayTextView.string.length, 1)];
     i++;
     
     [self.RXDataDisplayTextView setNeedsDisplay:YES];
@@ -376,6 +470,7 @@
 
 -(void)tableViewSelectionDidChange:(NSNotification*)notification{
     self.serialPort = [self getCurrentORSSerialPort];
+    self.serialPort.delegate = self;
     self.serialPort.allowsNonStandardBaudRates = YES;//允许非标准的波特率
 }
 
@@ -408,19 +503,12 @@
 // 保存日志文件
 - (IBAction)SaveLog:(id)sender {
     
-
-    NSSavePanel*  panel = [NSSavePanel savePanel];
-    [panel setNameFieldStringValue:[NSString stringWithFormat:@"serialPort-%@.txt",[self getDateTime]]];
-    [panel setMessage:@"选择存储路径"];
-    [panel setAllowsOtherFileTypes:YES];
-    [panel setAllowedFileTypes:@[@"txt"]];
-    [panel setExtensionHidden:YES];
-    [panel setCanCreateDirectories:YES];
+    [_panel setNameFieldStringValue:[NSString stringWithFormat:@"%@-%@.txt",_serialPort.name,[self getDateTime]]];
     
-    [panel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
+    [_panel beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse result) {
         if (result == NSFileHandlingPanelOKButton)
         {
-            NSString *path = [[panel URL] path];
+            NSString *path = [[_panel URL] path];
     
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.RXDataDisplayTextView.textStorage.mutableString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
@@ -436,9 +524,21 @@
     struct tm tm;
     t = time( NULL );
     memcpy(&tm, localtime(&t), sizeof(struct tm));
-    sprintf(dateTime, "%04d%02d%02d%02d%02d",
+    sprintf(dateTime, "%04d%02d%02d%02d%02d%02d",
             tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
-            tm.tm_hour, tm.tm_min);
+            tm.tm_hour, tm.tm_min,tm.tm_sec);
+    return [[NSString alloc] initWithCString:dateTime encoding:NSASCIIStringEncoding];
+}
+
+- (NSString *)get2DateTime
+{
+    char dateTime[15];
+    time_t t;
+    struct tm tm;
+    t = time( NULL );
+    memcpy(&tm, localtime(&t), sizeof(struct tm));
+    sprintf(dateTime, "%02d:%02d:%02d",
+            tm.tm_hour, tm.tm_min,tm.tm_sec);
     return [[NSString alloc] initWithCString:dateTime encoding:NSASCIIStringEncoding];
 }
 @end
