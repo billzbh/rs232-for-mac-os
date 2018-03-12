@@ -206,6 +206,12 @@
 }
 
 -(void)sendDataWithPort{
+    
+    if (!self.serialPort.isOpen) {
+        self.StatusText.stringValue = @"串口未打开，不能发送数据";
+        return;
+    }
+    
     NSData *sendData;
     NSString *textStr = self.TXDataDisplayTextView.textStorage.mutableString;
     if (self.isTXHexString) {
@@ -233,6 +239,7 @@
             self.TXCounter.stringValue = [NSString stringWithFormat:@"%ld",self.TXNumber];
         }else{
             self.StatusText.stringValue = @"发送HEX数据失败";
+            return;
         }
         
         //显示文字为深灰色，大小为14
