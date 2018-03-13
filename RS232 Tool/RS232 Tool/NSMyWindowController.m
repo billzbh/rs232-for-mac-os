@@ -7,6 +7,9 @@
 //
 
 #import "NSMyWindowController.h"
+#import "MainWindow.h"
+#import "ViewController.h"
+#import "AppDelegate.h"
 
 @interface NSMyWindowController () <NSWindowDelegate>
 
@@ -18,16 +21,12 @@
 - (void)windowDidLoad {
     [super windowDidLoad];
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
-    
+}
+
+-(void)windowDidBecomeMain:(NSNotification *)notification{
+//    [AppDelegate shareAppdelegate].firstWindow = self.myWindow;
     [self.myWindow setDelegate:self];
+    [AppDelegate shareAppdelegate].windowController = self;
 }
-
-- (BOOL)windowShouldClose:(id)sender //close box quits the app
-{
-    [NSApp terminate:self];
-    return YES;
-}
-
-
 
 @end
