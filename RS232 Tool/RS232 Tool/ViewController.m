@@ -5,17 +5,6 @@
 //  Created by zbh on 17/3/3.
 //  Copyright © 2017年 zbh. All rights reserved.
 //
-//================================================================
-/*
-Copyright (c) 2011-2012 Andrew R. Madsen (andrew@openreelsoftware.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 
 #import "ViewController.h"
 #import "ORSSerialPortManager.h"
@@ -28,6 +17,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        self.serialPortManager = [ORSSerialPortManager sharedSerialPortManager];
+        self.availableBaudRates = @[@300, @1200, @2400, @4800, @9600, @14400, @19200, @28800, @38400, @57600, @115200, @230400];
+        
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(serialPortsWereConnected:) name:ORSSerialPortsWereConnectedNotification object:nil];
         [nc addObserver:self selector:@selector(serialPortsWereDisconnected:) name:ORSSerialPortsWereDisconnectedNotification object:nil];
@@ -35,21 +27,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #if (MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_7)
         [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
 #endif
+        
+        _panel = [NSSavePanel savePanel];
+        [_panel setMessage:@"选择存储路径"];
+        [_panel setAllowsOtherFileTypes:YES];
+        [_panel setAllowedFileTypes:@[@"txt"]];
+        [_panel setExtensionHidden:YES];
+        [_panel setCanCreateDirectories:YES];
+        self.isLoopSend = NO;
+        self.isWorkInSend = NO;
+        
+        self.MyMoneyWindow =((NSWindowController *)[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"HelpWindow And Read Me"]).window;
     });
-    
-    self.serialPortManager = [ORSSerialPortManager sharedSerialPortManager];
-    self.availableBaudRates = @[@300, @1200, @2400, @4800, @9600, @14400, @19200, @28800, @38400, @57600, @115200, @230400];
-    
-    _panel = [NSSavePanel savePanel];
-    [_panel setMessage:@"选择存储路径"];
-    [_panel setAllowsOtherFileTypes:YES];
-    [_panel setAllowedFileTypes:@[@"txt"]];
-    [_panel setExtensionHidden:YES];
-    [_panel setCanCreateDirectories:YES];
-    self.isLoopSend = NO;
-    self.isWorkInSend = NO;
-    
-    self.MyMoneyWindow =((NSWindowController *)[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"HelpWindow And Read Me"]).window;
 }
 
 - (void)dealloc
@@ -72,6 +61,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     self.RXNumber = 0;
     // Do any additional setup after loading the view.
     self.TXDataDisplayTextView.delegate = self;
+    self.tableviewFordevices.delegate = self;
 }
 
 -(void)viewDidAppear{
@@ -110,7 +100,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 - (IBAction)openComPort:(id)sender {
-    [self.view.window.tab setTitle:self.serialPort.name];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         self.serialPort.isOpen ? [self.serialPort close] : [self.serialPort open];
     });

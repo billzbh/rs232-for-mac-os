@@ -44,6 +44,7 @@
 @property (nonatomic, strong) ORSSerialPortManager *serialPortManager;
 @property (nonatomic, strong) ORSSerialPort *serialPort;//ORSSerialPort
 @property (nonatomic, strong) NSArray *availableBaudRates;
+@property (weak) IBOutlet NSTableView *tableviewFordevices;
 
 @property (nonatomic,strong) NSSavePanel*  panel;
 @property (nonatomic, assign) BOOL isLoopSend;

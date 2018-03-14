@@ -7,13 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "NSMyWindowController.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate,NSWindowDelegate>
 
-@property(strong,nonatomic) NSMyWindowController *windowController;
-@property(strong,nonatomic) NSMutableArray <NSMyWindowController *>*WindowControllers;
-+(AppDelegate *)shareAppdelegate;
 
 @end
 
