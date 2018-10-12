@@ -83,6 +83,14 @@
     }];
 }
 
+//设置只显示收到的数据，而不添加指示/状态文字等
+- (IBAction)setDisplayRxDataOnly:(NSButton *)sender {
+    if(sender.intValue==1){
+        self.isOnlyDisplayRxData = YES;
+    }else{
+        self.isOnlyDisplayRxData = NO;
+    }
+}
 
 //设置循环发送数据
 - (IBAction)setSendLoop:(NSButton *)sender {
@@ -361,8 +369,13 @@
     }
     
     int prelen = (int)string.length;
-    string = [NSString stringWithFormat:@"%@ 接收 > %@\n",[self get2DateTime],string];
-    prelen = (int)string.length-prelen-1;
+    if(self.isOnlyDisplayRxData){
+        string = [NSString stringWithFormat:@"%@\n",string];
+        prelen = 0;
+    }else{
+        string = [NSString stringWithFormat:@"%@ 接收 > %@\n",[self get2DateTime],string];
+        prelen = (int)string.length-prelen-1;
+    }
     
     //显示文字为深灰色，大小为14
     NSInteger startPorint = self.RXDataDisplayTextView.textStorage.length;
@@ -539,13 +552,21 @@
 
 - (NSString *)get2DateTime
 {
-    char dateTime[15];
-    time_t t;
-    struct tm tm;
-    t = time( NULL );
-    memcpy(&tm, localtime(&t), sizeof(struct tm));
-    sprintf(dateTime, "%02d:%02d:%02d",
-            tm.tm_hour, tm.tm_min,tm.tm_sec);
-    return [[NSString alloc] initWithCString:dateTime encoding:NSASCIIStringEncoding];
+//    char dateTime[15];
+//    time_t t;
+//    struct tm tm;
+//    t = time( NULL );
+//    memcpy(&tm, localtime(&t), sizeof(struct tm));
+//    sprintf(dateTime, "%02d:%02d:%02d",
+//            tm.tm_hour, tm.tm_min,tm.tm_sec);
+//    return [[NSString alloc] initWithCString:dateTime encoding:NSASCIIStringEncoding];
+    
+    NSString* date;
+    NSDateFormatter * formatter = [[NSDateFormatter alloc ] init];
+    //[formatter setDateFormat:@"YYYY.MM.dd.hh.mm.ss"];
+    [formatter setDateFormat:@"hh:mm:ss.SSS"];
+    date = [formatter stringFromDate:[NSDate date]];
+    NSString * timeNow = [[NSString alloc] initWithFormat:@"%@", date];
+    return timeNow;
 }
 @end

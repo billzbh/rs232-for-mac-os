@@ -49,7 +49,7 @@
 @property (nonatomic,strong) NSSavePanel*  panel;
 @property (nonatomic, assign) BOOL isLoopSend;
 @property (nonatomic, assign) BOOL isWorkInSend;
-
+@property (nonatomic, assign) BOOL isOnlyDisplayRxData;
 @property (assign,nonatomic) int sendCount;
 @property (assign,nonatomic) NSTimer *timer;
 @property (nonatomic, strong) NSWindow *MyMoneyWindow;
